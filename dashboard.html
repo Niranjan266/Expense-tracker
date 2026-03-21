@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard | Expense Tracker</title>
+
+  <link rel="stylesheet" href="css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>₹ Tracker</h2>
+    <ul>
+      <li class="active">🏠 Dashboard</li>
+      <li>📊 Transactions</li>
+      <li>💰 Budgets</li>
+      <li>📈 Reports</li>
+      <li>⚙️ Settings</li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <h1>Welcome Back 👋</h1>
+      <button class="add-btn">➕ Add Transaction</button>
+    </header>
+
+    <!-- CARDS -->
+    <section class="cards">
+
+      <div class="card income">
+        <h3>💰 Total Income</h3>
+        <p id="income">₹0</p>
+      </div>
+
+      <div class="card expense">
+        <h3>💸 Total Expenses</h3>
+        <p id="expense">₹0</p>
+      </div>
+
+      <div class="card balance">
+        <h3>🏦 Balance</h3>
+        <p id="balance">₹0</p>
+      </div>
+
+      <div class="card savings">
+        <h3>💵 Savings</h3>
+        <p id="savings">₹0</p>
+      </div>
+
+    </section>
+
+    <!-- CHART -->
+    <section class="charts">
+      <div class="chart-box">
+        <h3>📊 Monthly Overview</h3>
+        <canvas id="chart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3>🥧 Expenses by Category</h3>
+        <canvas id="pieChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3>📈 Income vs Expenses</h3>
+        <canvas id="barChart"></canvas>
+      </div>
+    </section>
+
+    <!-- TRANSACTIONS -->
+    <section class="transactions">
+      <h3>🧾 Recent Transactions</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+
+        <tbody id="transactionList">
+          <tr>
+            <td colspan="5">No transactions yet</td>
+          </tr>
+        </tbody>
+
+      </table>
+    </section>
+
+  </main>
+</div>
+
+<!-- ================= MODAL ================= -->
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+
+    <h2>➕ Add Transaction</h2>
+
+    <form id="transactionForm">
+
+      <input type="number" id="amount" placeholder="Enter Amount ₹" required>
+
+      <select id="category">
+        <option>Food</option>
+        <option>Transport</option>
+        <option>Rent</option>
+        <option>Shopping</option>
+        <option>Bills</option>
+      </select>
+
+      <input type="date" id="date" required>
+
+      <select id="type">
+        <option value="expense">Expense</option>
+        <option value="income">Income</option>
+      </select>
+
+      <input type="text" id="description" placeholder="Description">
+
+      <div class="modal-buttons">
+        <button type="submit">Add</button>
+        <button type="button" onclick="closeModal()">Cancel</button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>

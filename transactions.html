@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Transactions | Expense Tracker</title>
+
+  <link rel="stylesheet" href="css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>₹ Tracker</h2>
+    <ul>
+      <li>🏠 Dashboard</li>
+      <li class="active">📊 Transactions</li>
+      <li>💰 Budgets</li>
+      <li>📈 Reports</li>
+      <li>⚙️ Settings</li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <h1>📊 All Transactions</h1>
+      <button class="add-btn">➕ Add Transaction</button>
+    </header>
+
+    <!-- FILTERS -->
+    <section class="filters">
+      <input type="text" id="searchInput" placeholder="Search by description...">
+      <select id="filterType">
+        <option value="">All Types</option>
+        <option value="income">Income</option>
+        <option value="expense">Expense</option>
+      </select>
+      <select id="filterCategory">
+        <option value="">All Categories</option>
+        <option value="Food">Food</option>
+        <option value="Transport">Transport</option>
+        <option value="Rent">Rent</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Bills">Bills</option>
+      </select>
+      <button id="clearFilters" class="clear-btn">Clear Filters</button>
+    </section>
+
+    <!-- TRANSACTIONS -->
+    <section class="transactions">
+      <h3>🧾 Transaction History</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="transactionList">
+          <tr>
+            <td colspan="6">No transactions yet</td>
+          </tr>
+        </tbody>
+
+      </table>
+    </section>
+
+  </main>
+</div>
+
+<!-- ================= MODAL ================= -->
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+
+    <h2>➕ Add Transaction</h2>
+
+    <form id="transactionForm">
+
+      <input type="number" id="amount" placeholder="Enter Amount ₹" required>
+
+      <select id="category">
+        <option>Food</option>
+        <option>Transport</option>
+        <option>Rent</option>
+        <option>Shopping</option>
+        <option>Bills</option>
+      </select>
+
+      <input type="date" id="date" required>
+
+      <select id="type">
+        <option value="expense">Expense</option>
+        <option value="income">Income</option>
+      </select>
+
+      <input type="text" id="description" placeholder="Description">
+
+      <div class="modal-buttons">
+        <button type="submit">Add</button>
+        <button type="button" onclick="closeModal()">Cancel</button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+<script src="js/transactions.js"></script>
+</body>
+</html>

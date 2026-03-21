@@ -1,0 +1,122 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, #0f172a, #1e3a8a, #2563eb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Glass Card */
+.login-card {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(20px);
+  padding: 40px;
+  border-radius: 20px;
+  width: 360px;
+  text-align: center;
+  color: #e0e7ff;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.login-card h2 {
+  margin-bottom: 10px;
+  color: #60a5fa;
+}
+
+.subtitle {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #cbd5f5;
+}
+
+/* Input Fields */
+.input-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  font-size: 13px;
+  color: #93c5fd;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  background: #1e293b;
+  color: #fff;
+  border: 1px solid #334155;
+}
+
+.input-group input:focus {
+  border: 1px solid #60a5fa;
+  box-shadow: 0 0 5px #60a5fa;
+}
+
+/* Password Icon */
+.password-group {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 38px;
+  cursor: pointer;
+  color: #60a5fa;
+}
+
+/* Button */
+.btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #60a5fa;
+}
+
+/* Links */
+.register-link {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #cbd5f5;
+}
+
+.register-link a {
+  color: #60a5fa;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}

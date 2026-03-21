@@ -1,0 +1,25 @@
+/* Register specific tweaks */
+
+.login-card {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slight variation for register button */
+.btn {
+  background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+}
+
+.btn:hover {
+  box-shadow: 0 0 20px #3b82f6;
+}

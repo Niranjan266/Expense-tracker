@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reports | Expense Tracker</title>
+
+  <link rel="stylesheet" href="css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>₹ Tracker</h2>
+    <ul>
+      <li>🏠 Dashboard</li>
+      <li>📊 Transactions</li>
+      <li>💰 Budgets</li>
+      <li class="active">📈 Reports</li>
+      <li>⚙️ Settings</li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <h1>📈 Financial Reports</h1>
+      <button id="downloadBtn" class="add-btn">⬇️ Download as PDF</button>
+    </header>
+
+    <!-- REPORT CONTENT -->
+    <div id="reportContent">
+
+      <!-- SUMMARY CARDS -->
+      <section class="cards">
+        <div class="card income">
+          <h3>💰 Total Income</h3>
+          <p id="income">₹0</p>
+        </div>
+
+        <div class="card expense">
+          <h3>💸 Total Expenses</h3>
+          <p id="expense">₹0</p>
+        </div>
+
+        <div class="card balance">
+          <h3>🏦 Balance</h3>
+          <p id="balance">₹0</p>
+        </div>
+
+        <div class="card savings">
+          <h3>💵 Savings</h3>
+          <p id="savings">₹0</p>
+        </div>
+      </section>
+
+      <!-- CHARTS -->
+      <section class="charts">
+        <div class="chart-box">
+          <h3>📊 Monthly Overview</h3>
+          <canvas id="chart"></canvas>
+        </div>
+        <div class="chart-box">
+          <h3>🥧 Expenses by Category</h3>
+          <canvas id="pieChart"></canvas>
+        </div>
+        <div class="chart-box">
+          <h3>📈 Income vs Expenses</h3>
+          <canvas id="barChart"></canvas>
+        </div>
+      </section>
+
+      <!-- CATEGORY BREAKDOWN -->
+      <section class="transactions">
+        <h3>📋 Expense Breakdown by Category</h3>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Total Amount</th>
+              <th>Percentage</th>
+              <th>Transaction Count</th>
+            </tr>
+          </thead>
+
+          <tbody id="categoryList">
+            <tr>
+              <td colspan="4">No data available</td>
+            </tr>
+          </tbody>
+
+        </table>
+      </section>
+
+      <!-- MONTHLY SUMMARY -->
+      <section class="transactions">
+        <h3>📅 Monthly Summary</h3>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Income</th>
+              <th>Expenses</th>
+              <th>Balance</th>
+            </tr>
+          </thead>
+
+          <tbody id="monthlySummary">
+            <tr>
+              <td colspan="4">No data available</td>
+            </tr>
+          </tbody>
+
+        </table>
+      </section>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="js/reports.js"></script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Budget Tracker | Expense Tracker</title>
+
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/budget.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>₹ Tracker</h2>
+    <ul>
+      <li>🏠 Dashboard</li>
+      <li>📊 Transactions</li>
+      <li class="active">💰 Budgets</li>
+      <li>📈 Reports</li>
+      <li>⚙️ Settings</li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <h1>💰 Budget Tracker</h1>
+      <button class="add-btn" onclick="openBudgetModal()">➕ Set Monthly Budget</button>
+    </header>
+
+    <!-- OVERALL BUDGET CARD -->
+    <section class="budget-overview">
+      <div class="budget-card main">
+        <div class="budget-header">
+          <h2>💳 Overall Monthly Budget</h2>
+          <span class="month-label" id="currentMonth"></span>
+        </div>
+
+        <div class="budget-stats">
+          <div class="stat-item">
+            <label>Budget Limit</label>
+            <p id="budgetAmount" class="amount">₹0</p>
+          </div>
+          <div class="stat-item">
+            <label>Total Spent</label>
+            <p id="totalSpent" class="amount warning">₹0</p>
+          </div>
+          <div class="stat-item">
+            <label>Remaining</label>
+            <p id="remaining" class="amount success">₹0</p>
+          </div>
+        </div>
+
+        <!-- PROGRESS BAR -->
+        <div class="progress-section">
+          <div class="progress-header">
+            <label>Budget Usage</label>
+            <span id="percentageLabel" class="percentage">0%</span>
+          </div>
+          <div class="progress-bar">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+          <p id="warningMessage" class="warning-message"></p>
+        </div>
+
+        <!-- EDIT BUDGET BUTTON -->
+        <button class="edit-budget-btn" onclick="openBudgetModal()">✏️ Edit Budget</button>
+      </div>
+    </section>
+
+    <!-- CATEGORY-WISE BUDGET SECTION -->
+    <section class="budget-categories">
+      <h2>📊 Budget by Category</h2>
+      <div class="category-grid" id="categoryGrid">
+        <!-- Category cards will be dynamically generated -->
+      </div>
+    </section>
+
+    <!-- SPENDING SUMMARY -->
+    <section class="spending-summary">
+      <h2>📈 Spending Summary</h2>
+      <div class="summary-cards">
+        <div class="summary-card">
+          <h3>Food</h3>
+          <p id="foodSpent">₹0</p>
+          <div class="small-progress">
+            <div id="foodProgress" class="progress-fill"></div>
+          </div>
+          <span id="foodPercent">0%</span>
+        </div>
+        <div class="summary-card">
+          <h3>Transport</h3>
+          <p id="transportSpent">₹0</p>
+          <div class="small-progress">
+            <div id="transportProgress" class="progress-fill"></div>
+          </div>
+          <span id="transportPercent">0%</span>
+        </div>
+        <div class="summary-card">
+          <h3>Rent</h3>
+          <p id="rentSpent">₹0</p>
+          <div class="small-progress">
+            <div id="rentProgress" class="progress-fill"></div>
+          </div>
+          <span id="rentPercent">0%</span>
+        </div>
+        <div class="summary-card">
+          <h3>Shopping</h3>
+          <p id="shoppingSpent">₹0</p>
+          <div class="small-progress">
+            <div id="shoppingProgress" class="progress-fill"></div>
+          </div>
+          <span id="shoppingPercent">0%</span>
+        </div>
+        <div class="summary-card">
+          <h3>Bills</h3>
+          <p id="billsSpent">₹0</p>
+          <div class="small-progress">
+            <div id="billsProgress" class="progress-fill"></div>
+          </div>
+          <span id="billsPercent">0%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- MONTHLY BUDGET HISTORY -->
+    <section class="budget-history">
+      <h2>📅 Budget History</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Budget</th>
+            <th>Spent</th>
+            <th>Remaining</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="budgetHistoryList">
+          <tr>
+            <td colspan="5">No budget history</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+</div>
+
+<!-- ================= BUDGET MODAL ================= -->
+
+<div id="budgetModal" class="modal">
+  <div class="modal-content">
+
+    <h2>💳 Set Monthly Budget</h2>
+
+    <form id="budgetForm">
+
+      <div class="form-group">
+        <label for="monthInput">Month & Year</label>
+        <input type="month" id="monthInput" required>
+      </div>
+
+      <div class="form-group">
+        <label for="budgetInput">Monthly Budget Amount (₹)</label>
+        <input type="number" id="budgetInput" placeholder="Enter budget amount" min="0" step="100" required>
+      </div>
+
+      <div class="category-budget-section">
+        <label>Optional: Set Category Budgets</label>
+        
+        <div class="category-input">
+          <label for="foodBudget">Food (₹)</label>
+          <input type="number" id="foodBudget" placeholder="0" min="0" step="100">
+        </div>
+
+        <div class="category-input">
+          <label for="transportBudget">Transport (₹)</label>
+          <input type="number" id="transportBudget" placeholder="0" min="0" step="100">
+        </div>
+
+        <div class="category-input">
+          <label for="rentBudget">Rent (₹)</label>
+          <input type="number" id="rentBudget" placeholder="0" min="0" step="100">
+        </div>
+
+        <div class="category-input">
+          <label for="shoppingBudget">Shopping (₹)</label>
+          <input type="number" id="shoppingBudget" placeholder="0" min="0" step="100">
+        </div>
+
+        <div class="category-input">
+          <label for="billsBudget">Bills (₹)</label>
+          <input type="number" id="billsBudget" placeholder="0" min="0" step="100">
+        </div>
+      </div>
+
+      <div class="modal-buttons">
+        <button type="submit">Save Budget</button>
+        <button type="button" onclick="closeBudgetModal()">Cancel</button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+<script src="js/budget.js"></script>
+</body>
+</html>
