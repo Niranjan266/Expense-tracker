@@ -1,131 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Reports | Expense Tracker</title>
-
-  <link rel="stylesheet" href="css/dashboard.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports | Expense Tracker</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
+    <div class="dashboard app-shell">
+        <aside class="sidebar">
+            <div class="brand-block">
+                <div class="brand-mark">₹</div>
+                <div>
+                    <h2>Expense Tracker</h2>
+                    <p class="sidebar-subtitle">Manage money with clarity</p>
+                </div>
+            </div>
 
-<div class="dashboard">
+            <nav class="sidebar-nav" aria-label="Primary navigation">
+                <ul>
+                    <li data-href="dashboard.html"><span>🏠</span> Dashboard</li>
+                    <li data-href="transactions.html"><span>📊</span> Transactions</li>
+                    <li data-href="budgets.html"><span>💰</span> Budgets</li>
+                    <li class="active" data-href="reports.html"><span>📈</span> Reports</li>
+                    <li data-href="settings.html"><span>⚙️</span> Settings</li>
+                </ul>
+            </nav>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h2>₹ Tracker</h2>
-    <ul>
-      <li>🏠 Dashboard</li>
-      <li>📊 Transactions</li>
-      <li>💰 Budgets</li>
-      <li class="active">📈 Reports</li>
-      <li>⚙️ Settings</li>
-    </ul>
-  </aside>
+            <div class="sidebar-card">
+                <p class="sidebar-card-label">Insight</p>
+                <strong>Review trends</strong>
+                <span class="sidebar-card-note">Catch spending habits early</span>
+            </div>
+        </aside>
 
-  <!-- MAIN CONTENT -->
-  <main class="main-content">
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Financial analytics</p>
+                    <h2>Reports & insights</h2>
+                </div>
+                <div class="topbar-actions">
+                    <button id="exportJsonBtn" class="ghost-button" type="button">Export JSON</button>
+                    <button id="downloadBtn" class="primary-button" type="button">Download PDF</button>
+                </div>
+            </header>
 
-    <!-- TOPBAR -->
-    <header class="topbar">
-      <h1>📈 Financial Reports</h1>
-      <button id="downloadBtn" class="add-btn">⬇️ Download as PDF</button>
-    </header>
+            <section class="hero-panel">
+                <div class="hero-copy">
+                    <h3>Track what changed this month</h3>
+                    <p>Review totals, compare trends, and use actionable insights to improve your spending decisions.</p>
+                </div>
+                <div class="hero-metrics">
+                    <article class="metric-card">
+                        <span>Top expense category</span>
+                        <strong id="topCategory">—</strong>
+                    </article>
+                    <article class="metric-card">
+                        <span>Average monthly spend</span>
+                        <strong id="averageMonthlySpend">₹0.00</strong>
+                    </article>
+                    <article class="metric-card">
+                        <span>Most active month</span>
+                        <strong id="mostActiveMonth">—</strong>
+                    </article>
+                </div>
+            </section>
 
-    <!-- REPORT CONTENT -->
-    <div id="reportContent">
+            <div id="reportContent">
+                <section class="cards">
+                    <div class="card income">
+                        <h3>Total Income</h3>
+                        <p id="income">₹0</p>
+                    </div>
+                    <div class="card expense">
+                        <h3>Total Expenses</h3>
+                        <p id="expense">₹0</p>
+                    </div>
+                    <div class="card balance">
+                        <h3>Balance</h3>
+                        <p id="balance">₹0</p>
+                    </div>
+                    <div class="card savings">
+                        <h3>Savings Rate</h3>
+                        <p id="savings">0%</p>
+                    </div>
+                </section>
 
-      <!-- SUMMARY CARDS -->
-      <section class="cards">
-        <div class="card income">
-          <h3>💰 Total Income</h3>
-          <p id="income">₹0</p>
-        </div>
+                <section class="quick-insights-grid">
+                    <article class="info-tile">
+                        <span>Transactions analysed</span>
+                        <strong id="transactionVolume">0</strong>
+                    </article>
+                    <article class="info-tile">
+                        <span>This month's expenses</span>
+                        <strong id="currentMonthExpense">₹0.00</strong>
+                    </article>
+                    <article class="info-tile">
+                        <span>This month's income</span>
+                        <strong id="currentMonthIncome">₹0.00</strong>
+                    </article>
+                    <article class="info-tile">
+                        <span>Net change this month</span>
+                        <strong id="currentMonthNet">₹0.00</strong>
+                    </article>
+                </section>
 
-        <div class="card expense">
-          <h3>💸 Total Expenses</h3>
-          <p id="expense">₹0</p>
-        </div>
+                <section class="charts">
+                    <div class="chart-box">
+                        <h3>Monthly overview</h3>
+                        <canvas id="chart"></canvas>
+                    </div>
+                    <div class="chart-box">
+                        <h3>Expenses by category</h3>
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                    <div class="chart-box">
+                        <h3>Income vs expenses</h3>
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </section>
 
-        <div class="card balance">
-          <h3>🏦 Balance</h3>
-          <p id="balance">₹0</p>
-        </div>
+                <section class="panel-grid">
+                    <section class="transactions">
+                        <div class="section-heading">
+                            <div>
+                                <p class="eyebrow">Breakdown</p>
+                                <h3>Expense breakdown by category</h3>
+                            </div>
+                        </div>
 
-        <div class="card savings">
-          <h3>💵 Savings</h3>
-          <p id="savings">₹0</p>
-        </div>
-      </section>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Total amount</th>
+                                        <th>Percentage</th>
+                                        <th>Transactions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="categoryList">
+                                    <tr>
+                                        <td colspan="4">No data available</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
 
-      <!-- CHARTS -->
-      <section class="charts">
-        <div class="chart-box">
-          <h3>📊 Monthly Overview</h3>
-          <canvas id="chart"></canvas>
-        </div>
-        <div class="chart-box">
-          <h3>🥧 Expenses by Category</h3>
-          <canvas id="pieChart"></canvas>
-        </div>
-        <div class="chart-box">
-          <h3>📈 Income vs Expenses</h3>
-          <canvas id="barChart"></canvas>
-        </div>
-      </section>
+                    <section class="transactions">
+                        <div class="section-heading">
+                            <div>
+                                <p class="eyebrow">Monthly trend</p>
+                                <h3>Monthly summary</h3>
+                            </div>
+                        </div>
 
-      <!-- CATEGORY BREAKDOWN -->
-      <section class="transactions">
-        <h3>📋 Expense Breakdown by Category</h3>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Month</th>
+                                        <th>Income</th>
+                                        <th>Expenses</th>
+                                        <th>Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="monthlySummary">
+                                    <tr>
+                                        <td colspan="4">No data available</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </section>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Category</th>
-              <th>Total Amount</th>
-              <th>Percentage</th>
-              <th>Transaction Count</th>
-            </tr>
-          </thead>
-
-          <tbody id="categoryList">
-            <tr>
-              <td colspan="4">No data available</td>
-            </tr>
-          </tbody>
-
-        </table>
-      </section>
-
-      <!-- MONTHLY SUMMARY -->
-      <section class="transactions">
-        <h3>📅 Monthly Summary</h3>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Month</th>
-              <th>Income</th>
-              <th>Expenses</th>
-              <th>Balance</th>
-            </tr>
-          </thead>
-
-          <tbody id="monthlySummary">
-            <tr>
-              <td colspan="4">No data available</td>
-            </tr>
-          </tbody>
-
-        </table>
-      </section>
-
+                <section class="transactions">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Highlights</p>
+                            <h3>Helpful report notes</h3>
+                        </div>
+                    </div>
+                    <div id="insightList" class="insight-note-list"></div>
+                </section>
+            </div>
+        </main>
     </div>
 
-  </main>
-</div>
-
-<script src="js/reports.js"></script>
+    <script src="js/reports.js"></script>
 </body>
 </html>

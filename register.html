@@ -2,50 +2,106 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register | Expense Tracker</title>
-
-  <!-- Common + Register CSS -->
+  <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/forms.css">
   <link rel="stylesheet" href="css/register.css">
 </head>
-<body>
+<body class="auth-page">
+  <div class="auth-background">
+    <span class="bg-orb orb-one"></span>
+    <span class="bg-orb orb-two"></span>
+    <span class="bg-orb orb-three"></span>
+  </div>
 
-<div class="container">
-  <div class="login-card">
-    
-    <h2>₹ Expense Tracker</h2>
-    <p class="subtitle">Create your account</p>
-
-    <form id="registerForm">
-
-      <div class="input-group">
-        <label>Name</label>
-        <input type="text" id="name" placeholder="Enter your name" required>
-      </div>
-
-      <div class="input-group">
-        <label>Email</label>
-        <input type="email" id="email" placeholder="Enter your email" required>
-      </div>
-
-      <div class="input-group password-group">
-        <label>Password</label>
-        <input type="password" id="password" placeholder="Create password" required>
-        <span class="toggle-password" onclick="togglePassword()">👁️</span>
-      </div>
-
-      <button type="submit" class="btn">Register</button>
-
-      <p class="register-link">
-        Already have an account? 
-        <a href="login.html">Login</a>
+  <main class="container auth-layout">
+    <section class="auth-panel auth-panel-info">
+      <div class="brand-badge">Expense Tracker</div>
+      <h1>Build better money habits with a fresh start.</h1>
+      <p class="hero-copy">
+        Create your account to organize spending, monitor balances, and keep your financial goals visible every day.
       </p>
 
-    </form>
+      <div class="feature-list">
+        <article class="feature-item">
+          <span class="feature-icon">₹</span>
+          <div>
+            <h3>One place for everything</h3>
+            <p>Track income, expenses, budgets, and reports without leaving the app.</p>
+          </div>
+        </article>
+        <article class="feature-item">
+          <span class="feature-icon">⚡</span>
+          <div>
+            <h3>Instant setup</h3>
+            <p>No signup server needed. Your profile is saved directly in local storage.</p>
+          </div>
+        </article>
+        <article class="feature-item">
+          <span class="feature-icon">☑</span>
+          <div>
+            <h3>Smart validation</h3>
+            <p>Create a stronger password and get helpful guidance as you type.</p>
+          </div>
+        </article>
+      </div>
+    </section>
 
-  </div>
-</div>
+    <section class="auth-panel auth-panel-form">
+      <div class="login-card modern-card register-card">
+        <div class="card-header">
+          <p class="eyebrow">Create account</p>
+          <h2>Register</h2>
+          <p class="subtitle">Start tracking your finances with a secure local profile.</p>
+        </div>
 
-<script src="js/register.js"></script>
+        <div id="authMessage" class="form-message" aria-live="polite"></div>
+
+        <form id="registerForm" novalidate>
+          <div class="input-group">
+            <label for="name">Full name</label>
+            <input type="text" id="name" placeholder="Enter your name" autocomplete="name" required>
+            <small class="field-hint">This name will be used across your dashboard.</small>
+          </div>
+
+          <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" autocomplete="email" required>
+            <small class="field-hint">We'll use this to identify your local account.</small>
+          </div>
+
+          <div class="input-group password-group">
+            <label for="password">Password</label>
+            <div class="password-input-wrap">
+              <input type="password" id="password" placeholder="Create password" autocomplete="new-password" required>
+              <button type="button" class="toggle-password" data-toggle-password aria-label="Show password">Show</button>
+            </div>
+            <div class="password-strength" aria-hidden="true">
+              <span class="strength-bar"></span>
+              <span class="strength-bar"></span>
+              <span class="strength-bar"></span>
+              <span class="strength-bar"></span>
+            </div>
+            <small class="field-hint" id="passwordStrengthText">Use at least 8 characters with a mix of letters and numbers.</small>
+          </div>
+
+          <label class="checkbox-row consent-row" for="rememberRegisterEmail">
+            <input type="checkbox" id="rememberRegisterEmail">
+            <span>Remember this email on this device</span>
+          </label>
+
+          <button type="submit" class="btn">Create account</button>
+
+          <p class="register-link">
+            Already have an account?
+            <a href="login.html">Login</a>
+          </p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/auth.js"></script>
 </body>
 </html>

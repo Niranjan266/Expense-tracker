@@ -1,13 +1,24 @@
-/* Register specific tweaks */
+/* ================= REGISTER PAGE STYLES ================= */
+@import url('theme.css');
+@import url('forms.css');
 
-.login-card {
-  animation: fadeIn 0.8s ease-in-out;
+.register-card {
+  animation: fadeInUp 0.5s ease;
 }
 
-@keyframes fadeIn {
+.register-card .btn {
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-md), 0 0 30px rgba(99, 102, 241, 0.3);
+}
+
+.register-card .btn:hover {
+  box-shadow: var(--shadow-lg), 0 0 40px rgba(99, 102, 241, 0.4);
+}
+
+@keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -15,11 +26,28 @@
   }
 }
 
-/* Slight variation for register button */
-.btn {
-  background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+/* Terms Checkbox */
+.terms-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
 }
 
-.btn:hover {
-  box-shadow: 0 0 20px #3b82f6;
+.terms-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+  margin-top: 2px;
+}
+
+.terms-row label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.terms-row label a {
+  color: var(--primary-light);
+  text-decoration: underline;
 }

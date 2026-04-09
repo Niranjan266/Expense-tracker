@@ -1,281 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Settings | Expense Tracker</title>
-
-  <link rel="stylesheet" href="css/dashboard.css">
-  <link rel="stylesheet" href="css/settings.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Expense Tracker</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/settings.css">
 </head>
 <body>
-
-<div class="dashboard">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h2>₹ Tracker</h2>
-    <ul>
-      <li>🏠 Dashboard</li>
-      <li>📊 Transactions</li>
-      <li>💰 Budgets</li>
-      <li>📈 Reports</li>
-      <li class="active">⚙️ Settings</li>
-    </ul>
-  </aside>
-
-  <!-- MAIN CONTENT -->
-  <main class="main-content">
-
-    <!-- TOPBAR -->
-    <header class="topbar">
-      <h1>⚙️ Settings & Preferences</h1>
-    </header>
-
-    <!-- PROFILE SECTION -->
-    <section class="settings-section profile-section">
-      <div class="section-header">
-        <h2>👤 Profile Settings</h2>
-        <span class="section-icon">👤</span>
-      </div>
-
-      <div class="settings-card">
-        <div class="setting-item">
-          <label>Full Name</label>
-          <div class="input-group">
-            <input type="text" id="userName" placeholder="Enter your name" maxlength="50">
-            <button id="editNameBtn" class="save-btn" onclick="saveName()">Save</button>
-          </div>
-          <small>This name appears in reports and exports</small>
-        </div>
-
-        <div class="setting-item">
-          <label>Email Address</label>
-          <div class="input-group">
-            <input type="email" id="userEmail" placeholder="Enter your email" maxlength="100">
-            <button id="editEmailBtn" class="save-btn" onclick="saveEmail()">Save</button>
-          </div>
-          <small>Used for data recovery and notifications</small>
-        </div>
-
-        <div class="setting-item">
-          <label>Member Since</label>
-          <p id="memberSince" class="read-only">Loading...</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- THEME SECTION -->
-    <section class="settings-section theme-section">
-      <div class="section-header">
-        <h2>🎨 Theme Settings</h2>
-        <span class="section-icon">🎨</span>
-      </div>
-
-      <div class="settings-card">
-        <div class="setting-item">
-          <label>Appearance Mode</label>
-          <div class="theme-toggle">
-            <button id="darkModeBtn" class="theme-btn active" onclick="setTheme('dark')">
-              🌙 Dark Mode
-            </button>
-            <button id="lightModeBtn" class="theme-btn" onclick="setTheme('light')">
-              ☀️ Light Mode
-            </button>
-          </div>
-          <small>Choose your preferred color scheme</small>
-        </div>
-
-        <div class="setting-item">
-          <label>Theme Preview</label>
-          <div class="theme-preview">
-            <div class="preview-card dark-preview">
-              <p>Dark Theme</p>
+    <div class="dashboard app-shell">
+        <aside class="sidebar">
+            <div class="brand-block">
+                <div class="brand-mark">₹</div>
+                <div>
+                    <h2>Expense Tracker</h2>
+                    <p class="sidebar-subtitle">Manage money with clarity</p>
+                </div>
             </div>
-            <div class="preview-card light-preview">
-              <p>Light Theme</p>
+
+            <nav class="sidebar-nav" aria-label="Primary navigation">
+                <ul>
+                    <li data-href="dashboard.html"><span>🏠</span> Dashboard</li>
+                    <li data-href="transactions.html"><span>📊</span> Transactions</li>
+                    <li data-href="budgets.html"><span>💰</span> Budgets</li>
+                    <li data-href="reports.html"><span>📈</span> Reports</li>
+                    <li class="active" data-href="settings.html"><span>⚙️</span> Settings</li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-card">
+                <p class="sidebar-card-label">Preferences</p>
+                <strong>Customize</strong>
+                <span class="sidebar-card-note">Profile, theme, and backups</span>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
+        </aside>
+        </aside>
 
-    <!-- CURRENCY SECTION -->
-    <section class="settings-section currency-section">
-      <div class="section-header">
-        <h2>💱 Currency Settings</h2>
-        <span class="section-icon">💱</span>
-      </div>
+        <main class="main-content settings-page">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Preferences</p>
+                    <h2>Settings & profile</h2>
+                </div>
+                <div class="topbar-actions">
+                    <span class="status-chip" id="settingsStatusChip">Saved locally</span>
+                </div>
+            </header>
 
-      <div class="settings-card">
-        <div class="setting-item">
-          <label>Display Currency</label>
-          <div class="currency-options">
-            <button id="currencyINR" class="currency-btn active" onclick="changeCurrency('INR', '₹')">
-              ₹ Indian Rupee (INR)
-            </button>
-            <button id="currencyUSD" class="currency-btn" onclick="changeCurrency('USD', '$')">
-              $ US Dollar (USD)
-            </button>
-            <button id="currencyEUR" class="currency-btn" onclick="changeCurrency('EUR', '€')">
-              € Euro (EUR)
-            </button>
-          </div>
-          <small>Your current currency: <span id="currentCurrency">₹ INR</span></small>
-        </div>
+            <section class="settings-hero">
+                <article class="hero-stat-card">
+                    <span>Currency</span>
+                    <strong id="heroCurrency">₹ INR</strong>
+                </article>
+                <article class="hero-stat-card">
+                    <span>Theme</span>
+                    <strong id="heroTheme">Dark</strong>
+                </article>
+                <article class="hero-stat-card">
+                    <span>Transactions stored</span>
+                    <strong id="transactionCount">0</strong>
+                </article>
+                <article class="hero-stat-card">
+                    <span>Storage used</span>
+                    <strong id="storageUsed">0 KB</strong>
+                </article>
+            </section>
 
-        <div class="setting-item">
-          <label>Currency Info</label>
-          <div class="currency-info">
-            <p><strong>Note:</strong> Changing currency will only update the display symbol. Amounts remain the same.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+            <section class="settings-section profile-section">
+                <div class="section-header">
+                    <h2>Profile settings</h2>
+                    <span class="section-icon">👤</span>
+                </div>
 
-    <!-- NOTIFICATIONS SECTION -->
-    <section class="settings-section notifications-section">
-      <div class="section-header">
-        <h2>🔔 Notifications Settings</h2>
-        <span class="section-icon">🔔</span>
-      </div>
+                <div class="settings-card">
+                    <div class="settings-grid two-column">
+                        <div class="setting-item">
+                            <label for="userName">Full name</label>
+                            <div class="input-group">
+                                <input type="text" id="userName" placeholder="Enter your name" maxlength="50">
+                                <button id="editNameBtn" class="save-btn" type="button" onclick="saveName()">Save</button>
+                            </div>
+                            <small>This name appears in reports and exports.</small>
+                        </div>
 
-      <div class="settings-card">
-        <div class="setting-item toggle-item">
-          <div class="toggle-content">
-            <label>Budget Warning Alerts</label>
-            <small>Get notified when you exceed 70% of your budget</small>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="budgetAlerts" onchange="toggleBudgetAlerts()">
-            <span class="slider"></span>
-          </label>
-        </div>
+                        <div class="setting-item">
+                            <label for="userEmail">Email address</label>
+                            <div class="input-group">
+                                <input type="email" id="userEmail" placeholder="Enter your email" maxlength="100">
+                                <button id="editEmailBtn" class="save-btn" type="button" onclick="saveEmail()">Save</button>
+                            </div>
+                            <small>Used as a profile reference on this device.</small>
+                        </div>
+                    </div>
 
-        <div class="setting-item toggle-item">
-          <div class="toggle-content">
-            <label>Transaction Notifications</label>
-            <small>Get notified when transactions are added</small>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="transactionAlerts" onchange="toggleTransactionAlerts()">
-            <span class="slider"></span>
-          </label>
-        </div>
+                    <div class="settings-grid two-column compact">
+                        <div class="setting-item">
+                            <label for="monthlyIncomeGoal">Monthly income goal</label>
+                            <input type="number" id="monthlyIncomeGoal" class="standalone-input" min="0" step="0.01" placeholder="Optional target">
+                        </div>
 
-        <div class="setting-item toggle-item">
-          <div class="toggle-content">
-            <label>Monthly Report Reminder</label>
-            <small>Get reminded to review your monthly budget</small>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="reportReminder" onchange="toggleReportReminder()">
-            <span class="slider"></span>
-          </label>
-        </div>
-      </div>
-    </section>
+                        <div class="setting-item">
+                            <label for="monthlySavingsGoal">Monthly savings goal</label>
+                            <input type="number" id="monthlySavingsGoal" class="standalone-input" min="0" step="0.01" placeholder="Optional target">
+                        </div>
+                    </div>
 
-    <!-- DATA MANAGEMENT SECTION -->
-    <section class="settings-section data-section">
-      <div class="section-header">
-        <h2>💾 Data Management</h2>
-        <span class="section-icon">💾</span>
-      </div>
+                    <div class="setting-item">
+                        <label>Member since</label>
+                        <p id="memberSince" class="read-only">Loading...</p>
+                    </div>
 
-      <div class="settings-card">
-        <div class="setting-item">
-          <label>Export Data</label>
-          <p class="description">Download all your transactions and budgets as a JSON file for backup or analysis.</p>
-          <button id="exportBtn" class="action-btn export-btn" onclick="exportData()">
-            ⬇️ Export as JSON
-          </button>
-        </div>
+                    <button type="button" class="action-btn export-btn inline-action" id="saveProfilePreferences">Save profile goals</button>
+                </div>
+            </section>
 
-        <div class="divider"></div>
+            <section class="settings-section theme-section">
+                <div class="section-header">
+                    <h2>Appearance</h2>
+                    <span class="section-icon">🎨</span>
+                </div>
 
-        <div class="setting-item">
-          <label>Import Data</label>
-          <p class="description">Upload a previously exported JSON file to restore your data.</p>
-          <div class="file-upload">
-            <input type="file" id="importFile" accept=".json" onchange="importData(event)">
-            <button class="action-btn import-btn" onclick="document.getElementById('importFile').click()">
-              ⬆️ Import from JSON
-            </button>
-          </div>
-        </div>
+                <div class="settings-card">
+                    <div class="setting-item">
+                        <label>Appearance mode</label>
+                        <div class="theme-toggle">
+                            <button id="darkModeBtn" class="theme-btn active" type="button" onclick="setTheme('dark')">Dark</button>
+                            <button id="lightModeBtn" class="theme-btn" type="button" onclick="setTheme('light')">Light</button>
+                        </div>
+                        <small>Choose the interface style you prefer.</small>
+                    </div>
 
-        <div class="divider"></div>
+                    <div class="setting-item">
+                        <label for="accentColor">Accent color</label>
+                        <select id="accentColor" class="standalone-input" onchange="changeAccentColor(this.value)">
+                            <option value="blue">Ocean blue</option>
+                            <option value="violet">Violet</option>
+                            <option value="emerald">Emerald</option>
+                            <option value="amber">Amber</option>
+                            <option value="rose">Rose</option>
+                        </select>
+                        <small>Accent color changes the theme highlight color.</small>
+                    </div>
 
-        <div class="setting-item">
-          <label>Storage Information</label>
-          <div class="storage-info">
-            <p>Total Transactions: <span id="transactionCount">0</span></p>
-            <p>Storage Used: <span id="storageUsed">0 KB</span></p>
-            <p>Last Backup: <span id="lastBackup">Never</span></p>
-          </div>
-        </div>
+                    <div class="setting-item">
+                        <label>Theme preview</label>
+                        <div class="theme-preview">
+                            <div class="preview-card dark-preview">
+                                <p>Dark</p>
+                            </div>
+                            <div class="preview-card light-preview">
+                                <p>Light</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <div class="divider"></div>
+            <section class="settings-section currency-section">
+                <div class="section-header">
+                    <h2>Currency & regional format</h2>
+                    <span class="section-icon">💱</span>
+                </div>
 
-        <div class="setting-item danger-zone">
-          <label>⚠️ Danger Zone</label>
-          <p class="description">Reset all data. This action cannot be undone.</p>
-          <button id="resetBtn" class="action-btn delete-btn" onclick="resetAllData()">
-            🗑️ Reset All Data
-          </button>
-        </div>
-      </div>
-    </section>
+                <div class="settings-card">
+                    <div class="setting-item">
+                        <label>Display currency</label>
+                        <div class="currency-options">
+                            <button id="currencyINR" class="currency-btn active" type="button" onclick="changeCurrency('INR', '₹')">₹ Indian Rupee</button>
+                            <button id="currencyUSD" class="currency-btn" type="button" onclick="changeCurrency('USD', '$')">$ US Dollar</button>
+                            <button id="currencyEUR" class="currency-btn" type="button" onclick="changeCurrency('EUR', '€')">€ Euro</button>
+                            <button id="currencyGBP" class="currency-btn" type="button" onclick="changeCurrency('GBP', '£')">£ British Pound</button>
+                        </div>
+                        <small>Your current currency: <span id="currentCurrency">₹ INR</span></small>
+                    </div>
 
-    <!-- ABOUT SECTION -->
-    <section class="settings-section about-section">
-      <div class="section-header">
-        <h2>ℹ️ About</h2>
-        <span class="section-icon">ℹ️</span>
-      </div>
+                    <div class="setting-item">
+                        <label for="weekStartsOn">Week starts on</label>
+                        <select id="weekStartsOn" class="standalone-input">
+                            <option value="monday">Monday</option>
+                            <option value="sunday">Sunday</option>
+                        </select>
+                        <small>Saved as a personal preference for future date views.</small>
+                    </div>
 
-      <div class="settings-card">
-        <div class="about-content">
-          <h3>💰 Expense Tracker</h3>
-          <p><strong>Version:</strong> 1.0.0</p>
-          <p><strong>Description:</strong> A modern, real-time expense tracking application with budget management.</p>
-          <p><strong>Features:</strong></p>
-          <ul>
-            <li>📊 Real-time transaction tracking</li>
-            <li>💳 Smart budget management with alerts</li>
-            <li>📈 Detailed financial reports</li>
-            <li>🎨 Modern dark/light theme support</li>
-            <li>💱 Multi-currency support</li>
-            <li>💾 Data export/import functionality</li>
-          </ul>
-          <p><strong>Last Updated:</strong> March 20, 2026</p>
-        </div>
-      </div>
-    </section>
+                    <div class="currency-info">
+                        <p><strong>Note:</strong> Changing currency updates how figures are shown. It does not convert existing amounts.</p>
+                    </div>
+                </div>
+            </section>
 
-  </main>
-</div>
+            <section class="settings-section notifications-section">
+                <div class="section-header">
+                    <h2>Notifications & reminders</h2>
+                    <span class="section-icon">🔔</span>
+                </div>
 
-<!-- ================= RESET CONFIRMATION MODAL ================= -->
-<div id="resetModal" class="modal">
-  <div class="modal-content">
-    <h2>⚠️ Confirm Reset</h2>
-    <p>Are you absolutely sure you want to reset all data?</p>
-    <p class="warning-text">This action will delete all transactions, budgets, and settings. This cannot be undone.</p>
-    
-    <div class="modal-buttons">
-      <button type="button" class="btn-danger" onclick="confirmReset()">Yes, Reset Everything</button>
-      <button type="button" class="btn-cancel" onclick="closeResetModal()">Cancel</button>
+                <div class="settings-card">
+                    <div class="setting-item toggle-item">
+                        <div class="toggle-content">
+                            <label>Budget warning alerts</label>
+                            <small>Show warnings when spending approaches your budget.</small>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="budgetAlerts" onchange="toggleBudgetAlerts()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item toggle-item">
+                        <div class="toggle-content">
+                            <label>Transaction notifications</label>
+                            <small>Keep small confirmations enabled after local actions.</small>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="transactionAlerts" onchange="toggleTransactionAlerts()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item toggle-item">
+                        <div class="toggle-content">
+                            <label>Monthly report reminder</label>
+                            <small>Useful if you review finances at the end of each month.</small>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="reportReminder" onchange="toggleReportReminder()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <section class="settings-section data-section">
+                <div class="section-header">
+                    <h2>Data management</h2>
+                    <span class="section-icon">💾</span>
+                </div>
+
+                <div class="settings-card">
+                    <div class="setting-item">
+                        <label>Export data</label>
+                        <p class="description">Download your transactions, budgets, and preferences as a JSON backup.</p>
+                        <button id="exportBtn" class="action-btn export-btn" type="button" onclick="exportData()">Export as JSON</button>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-item">
+                        <label>Import data</label>
+                        <p class="description">Restore a backup exported from this app.</p>
+                        <div class="file-upload">
+                            <input type="file" id="importFile" accept=".json" onchange="importData(event)">
+                            <button class="action-btn import-btn" type="button" onclick="document.getElementById('importFile').click()">Import from JSON</button>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-item">
+                        <label>Storage information</label>
+                        <div class="storage-info">
+                            <p>Total transactions: <span id="storageTransactionCount">0</span></p>
+                            <p>Storage used: <span id="storageUsedDetail">0 KB</span></p>
+                            <p>Last backup: <span id="lastBackup">Never</span></p>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-item danger-zone">
+                        <label>Danger zone</label>
+                        <p class="description">Reset local app data on this device. Session data is preserved where possible.</p>
+                        <button id="resetBtn" class="action-btn delete-btn" type="button" onclick="resetAllData()">Reset all data</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="settings-section about-section">
+                <div class="section-header">
+                    <h2>About this app</h2>
+                    <span class="section-icon">ℹ️</span>
+                </div>
+
+                <div class="settings-card">
+                    <div class="about-content">
+                        <h3>Expense Tracker</h3>
+                        <p><strong>Version:</strong> 2.0.0</p>
+                        <p><strong>Description:</strong> A lightweight local-first expense tracker built with plain HTML, CSS, and JavaScript.</p>
+                        <ul>
+                            <li>Track income and expenses</li>
+                            <li>Monitor monthly budgets</li>
+                            <li>Review visual reports and trends</li>
+                            <li>Customize theme, currency, and preferences</li>
+                            <li>Export and restore backups with localStorage</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
-  </div>
-</div>
 
-<!-- ================= SUCCESS TOAST ================= -->
-<div id="successToast" class="toast">
-  <p id="toastMessage"></p>
-</div>
+    <div id="resetModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirm reset</h2>
+            <p>Are you sure you want to clear your local app data?</p>
+            <p class="warning-text">Transactions, budgets, and saved preferences will be removed. This action cannot be undone.</p>
+            <div class="modal-buttons">
+                <button type="button" class="btn-danger" onclick="confirmReset()">Yes, reset everything</button>
+                <button type="button" class="btn-cancel" onclick="closeResetModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
 
-<script src="js/settings.js"></script>
+    <div id="successToast" class="toast">
+        <p id="toastMessage"></p>
+    </div>
+
+    <script src="js/settings.js"></script>
 </body>
 </html>

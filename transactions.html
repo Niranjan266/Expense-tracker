@@ -2,121 +2,244 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Transactions | Expense Tracker</title>
-
+  <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/dashboard.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-
-<div class="dashboard">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h2>₹ Tracker</h2>
-    <ul>
-      <li>🏠 Dashboard</li>
-      <li class="active">📊 Transactions</li>
-      <li>💰 Budgets</li>
-      <li>📈 Reports</li>
-      <li>⚙️ Settings</li>
-    </ul>
-  </aside>
-
-  <!-- MAIN CONTENT -->
-  <main class="main-content">
-
-    <!-- TOPBAR -->
-    <header class="topbar">
-      <h1>📊 All Transactions</h1>
-      <button class="add-btn">➕ Add Transaction</button>
-    </header>
-
-    <!-- FILTERS -->
-    <section class="filters">
-      <input type="text" id="searchInput" placeholder="Search by description...">
-      <select id="filterType">
-        <option value="">All Types</option>
-        <option value="income">Income</option>
-        <option value="expense">Expense</option>
-      </select>
-      <select id="filterCategory">
-        <option value="">All Categories</option>
-        <option value="Food">Food</option>
-        <option value="Transport">Transport</option>
-        <option value="Rent">Rent</option>
-        <option value="Shopping">Shopping</option>
-        <option value="Bills">Bills</option>
-      </select>
-      <button id="clearFilters" class="clear-btn">Clear Filters</button>
-    </section>
-
-    <!-- TRANSACTIONS -->
-    <section class="transactions">
-      <h3>🧾 Transaction History</h3>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Type</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody id="transactionList">
-          <tr>
-            <td colspan="6">No transactions yet</td>
-          </tr>
-        </tbody>
-
-      </table>
-    </section>
-
-  </main>
-</div>
-
-<!-- ================= MODAL ================= -->
-
-<div id="modal" class="modal">
-  <div class="modal-content">
-
-    <h2>➕ Add Transaction</h2>
-
-    <form id="transactionForm">
-
-      <input type="number" id="amount" placeholder="Enter Amount ₹" required>
-
-      <select id="category">
-        <option>Food</option>
-        <option>Transport</option>
-        <option>Rent</option>
-        <option>Shopping</option>
-        <option>Bills</option>
-      </select>
-
-      <input type="date" id="date" required>
-
-      <select id="type">
-        <option value="expense">Expense</option>
-        <option value="income">Income</option>
-      </select>
-
-      <input type="text" id="description" placeholder="Description">
-
-      <div class="modal-buttons">
-        <button type="submit">Add</button>
-        <button type="button" onclick="closeModal()">Cancel</button>
+  <div class="dashboard app-shell">
+    <aside class="sidebar">
+      <div class="brand-block">
+        <div class="brand-mark">₹</div>
+        <div>
+          <h2>Expense Tracker</h2>
+          <p class="sidebar-subtitle">Manage money with clarity</p>
+        </div>
       </div>
 
-    </form>
+      <nav class="sidebar-nav" aria-label="Primary navigation">
+        <ul>
+          <li data-href="dashboard.html"><span>🏠</span> Dashboard</li>
+          <li class="active" data-href="transactions.html"><span>📊</span> Transactions</li>
+          <li data-href="budgets.html"><span>💰</span> Budgets</li>
+          <li data-href="reports.html"><span>📈</span> Reports</li>
+          <li data-href="settings.html"><span>⚙️</span> Settings</li>
+        </ul>
+      </nav>
 
+      <div class="sidebar-card">
+        <p class="sidebar-card-label">Need a quick entry?</p>
+        <strong>Capture it instantly</strong>
+        <span class="sidebar-card-note">Use filters, sort, and notes to stay organised.</span>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Transaction center</p>
+          <h1>All transactions</h1>
+          <p class="topbar-subtext">Search, sort, and review every income and expense in one place.</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost-btn" type="button" id="exportTransactions">Export JSON</button>
+          <button class="add-btn" type="button">➕ Add Transaction</button>
+        </div>
+      </header>
+
+      <section class="insights-grid">
+        <article class="panel insight-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Overview</p>
+              <h3>Transaction summary</h3>
+            </div>
+          </div>
+          <div class="mini-stats">
+            <div class="mini-stat">
+              <span class="mini-stat-label">Visible entries</span>
+              <strong id="visibleCount">0</strong>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-stat-label">Income total</span>
+              <strong id="visibleIncome">₹0</strong>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-stat-label">Expense total</span>
+              <strong id="visibleExpense">₹0</strong>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-stat-label">Net total</span>
+              <strong id="visibleNet">₹0</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel highlight-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Helpful info</p>
+              <h3>Current filter state</h3>
+            </div>
+          </div>
+          <div class="highlight-content">
+            <strong id="filterSummaryTitle">Showing all transactions</strong>
+            <p id="filterSummaryText">Apply search, category, or type filters to narrow down your list.</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="filters panel">
+        <div class="filter-group">
+          <label for="searchInput">Search</label>
+          <input type="text" id="searchInput" placeholder="Search description, note, category, or payment method...">
+        </div>
+
+        <div class="filter-group">
+          <label for="filterType">Type</label>
+          <select id="filterType">
+            <option value="">All Types</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filterCategory">Category</label>
+          <select id="filterCategory">
+            <option value="">All Categories</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="sortTransactions">Sort by</label>
+          <select id="sortTransactions">
+            <option value="date-desc">Newest first</option>
+            <option value="date-asc">Oldest first</option>
+            <option value="amount-desc">Amount high to low</option>
+            <option value="amount-asc">Amount low to high</option>
+            <option value="category-asc">Category A-Z</option>
+            <option value="type-asc">Type A-Z</option>
+          </select>
+        </div>
+
+        <div class="filter-actions">
+          <button id="clearFilters" class="clear-btn" type="button">Clear Filters</button>
+        </div>
+      </section>
+
+      <section class="transactions panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">History</p>
+            <h3>Transaction list</h3>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Method</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="transactionList">
+              <tr>
+                <td colspan="7">No transactions yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
   </div>
-</div>
 
-<script src="js/transactions.js"></script>
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-content modal-wide">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">New entry</p>
+          <h2>Add Transaction</h2>
+        </div>
+        <button class="icon-btn" type="button" onclick="closeModal()" aria-label="Close modal">✕</button>
+      </div>
+
+      <form id="transactionForm">
+        <div class="form-grid">
+          <label>
+            <span>Amount</span>
+            <input type="number" id="amount" placeholder="Enter Amount ₹" min="0" step="0.01" required>
+          </label>
+
+          <label>
+            <span>Date</span>
+            <input type="date" id="date" required>
+          </label>
+
+          <label>
+            <span>Type</span>
+            <select id="type">
+              <option value="expense">Expense</option>
+              <option value="income">Income</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Category</span>
+            <select id="category">
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Rent">Rent</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Bills">Bills</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Health">Health</option>
+              <option value="Salary">Salary</option>
+              <option value="Freelance">Freelance</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+
+          <label class="full-width">
+            <span>Description</span>
+            <input type="text" id="description" placeholder="What was this for?">
+          </label>
+
+          <label>
+            <span>Payment Method</span>
+            <select id="paymentMethod">
+              <option value="Cash">Cash</option>
+              <option value="Card">Card</option>
+              <option value="UPI">UPI</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+              <option value="Wallet">Wallet</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Note</span>
+            <input type="text" id="note" placeholder="Optional note">
+          </label>
+        </div>
+
+        <div class="form-message" id="formMessage" aria-live="polite"></div>
+
+        <div class="modal-buttons">
+          <button type="submit">Save Transaction</button>
+          <button type="button" class="secondary-btn" onclick="closeModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/transactions.js"></script>
 </body>
 </html>

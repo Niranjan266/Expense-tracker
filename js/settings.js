@@ -54,7 +54,7 @@ function loadUserProfile() {
 function saveName() {
   const name = document.getElementById("userName").value.trim();
   if (!name) {
-    showToast("❌ Please enter a name");
+    showToast("Please enter a name");
     return;
   }
 
@@ -62,19 +62,19 @@ function saveName() {
   userData.name = name;
   localStorage.setItem("userData", JSON.stringify(userData));
 
-  showToast("✅ Name saved successfully!");
+  showToast("Name saved successfully!");
 }
 
 function saveEmail() {
   const email = document.getElementById("userEmail").value.trim();
-  
+
   if (!email) {
-    showToast("❌ Please enter an email");
+    showToast("Please enter an email");
     return;
   }
 
   if (!isValidEmail(email)) {
-    showToast("❌ Please enter a valid email");
+    showToast("Please enter a valid email");
     return;
   }
 
@@ -82,7 +82,20 @@ function saveEmail() {
   userData.email = email;
   localStorage.setItem("userData", JSON.stringify(userData));
 
-  showToast("✅ Email saved successfully!");
+  showToast("Email saved successfully!");
+}
+
+// ================= PROFILE GOALS =================
+function saveProfilePreferences() {
+  const monthlyIncomeGoal = document.getElementById("monthlyIncomeGoal").value;
+  const monthlySavingsGoal = document.getElementById("monthlySavingsGoal").value;
+
+  let userData = JSON.parse(localStorage.getItem("userData")) || {};
+  userData.monthlyIncomeGoal = monthlyIncomeGoal || 0;
+  userData.monthlySavingsGoal = monthlySavingsGoal || 0;
+  localStorage.setItem("userData", JSON.stringify(userData));
+
+  showToast("Profile goals saved successfully!");
 }
 
 function isValidEmail(email) {
@@ -92,8 +105,94 @@ function isValidEmail(email) {
 
 // ================= THEME SETTINGS =================
 function loadThemeSettings() {
-  const theme = localStorage.getItem("appTheme") || "dark";
+  const theme = localStorage.getItem("appTheme") || "light";
   setTheme(theme);
+  loadAccentColor();
+}
+
+function loadAccentColor() {
+  const accentColor = localStorage.getItem("accentColor") || "blue";
+  applyAccentColor(accentColor);
+
+  // Set the dropdown to the saved value
+  const accentSelect = document.getElementById("accentColor");
+  if (accentSelect) {
+    accentSelect.value = accentColor;
+  }
+}
+
+function changeAccentColor(color) {
+  localStorage.setItem("accentColor", color);
+  applyAccentColor(color);
+  showToast(`Accent color changed to ${getColorName(color)}!`);
+}
+
+function applyAccentColor(color) {
+  // Color mappings
+  const colors = {
+    blue: {
+      primary: "#3b82f6",
+      primaryLight: "#60a5fa",
+      primaryDark: "#2563eb",
+      primarySubtle: "rgba(59, 130, 246, 0.15)",
+      gradientPrimary: "linear-gradient(135deg, #3b82f6, #60a5fa)",
+      shadowGlow: "rgba(59, 130, 246, 0.15)"
+    },
+    violet: {
+      primary: "#8b5cf6",
+      primaryLight: "#a78bfa",
+      primaryDark: "#7c3aed",
+      primarySubtle: "rgba(139, 92, 246, 0.15)",
+      gradientPrimary: "linear-gradient(135deg, #8b5cf6, #a78bfa)",
+      shadowGlow: "rgba(139, 92, 246, 0.15)"
+    },
+    emerald: {
+      primary: "#10b981",
+      primaryLight: "#34d399",
+      primaryDark: "#059669",
+      primarySubtle: "rgba(16, 185, 129, 0.15)",
+      gradientPrimary: "linear-gradient(135deg, #10b981, #34d399)",
+      shadowGlow: "rgba(16, 185, 129, 0.15)"
+    },
+    amber: {
+      primary: "#f59e0b",
+      primaryLight: "#fbbf24",
+      primaryDark: "#d97706",
+      primarySubtle: "rgba(245, 158, 11, 0.15)",
+      gradientPrimary: "linear-gradient(135deg, #f59e0b, #fbbf24)",
+      shadowGlow: "rgba(245, 158, 11, 0.15)"
+    },
+    rose: {
+      primary: "#f43f5e",
+      primaryLight: "#fb7185",
+      primaryDark: "#e11d48",
+      primarySubtle: "rgba(244, 63, 94, 0.15)",
+      gradientPrimary: "linear-gradient(135deg, #f43f5e, #fb7185)",
+      shadowGlow: "rgba(244, 63, 94, 0.15)"
+    }
+  };
+
+  const selected = colors[color] || colors.blue;
+  const root = document.documentElement;
+
+  root.style.setProperty("--primary", selected.primary);
+  root.style.setProperty("--primary-light", selected.primaryLight);
+  root.style.setProperty("--primary-dark", selected.primaryDark);
+  root.style.setProperty("--primary-subtle", selected.primarySubtle);
+  root.style.setProperty("--gradient-primary", selected.gradientPrimary);
+  root.style.setProperty("--shadow-glow", selected.shadowGlow);
+  root.style.setProperty("--border-focus", selected.primary);
+}
+
+function getColorName(color) {
+  const names = {
+    blue: "Ocean Blue",
+    violet: "Violet",
+    emerald: "Emerald",
+    amber: "Amber",
+    rose: "Rose"
+  };
+  return names[color] || color;
 }
 
 function setTheme(theme) {
@@ -106,19 +205,19 @@ function setTheme(theme) {
   if (theme === "dark") {
     darkBtn.classList.add("active");
     lightBtn.classList.remove("active");
-    document.body.style.background = "radial-gradient(circle at top left, #1e3a8a, #020617)";
-    document.body.style.color = "#e2e8f0";
+    document.documentElement.classList.add("dark-mode");
+    document.documentElement.classList.remove("light-mode");
   } else {
     lightBtn.classList.add("active");
     darkBtn.classList.remove("active");
-    document.body.style.background = "#f8fafc";
-    document.body.style.color = "#1e293b";
+    document.documentElement.classList.add("light-mode");
+    document.documentElement.classList.remove("dark-mode");
   }
 
   // Apply theme to all pages
   applyThemeGlobally(theme);
 
-  showToast(`✅ Theme changed to ${theme === 'dark' ? 'Dark' : 'Light'} Mode!`);
+  showToast(`Theme changed to ${theme === 'dark' ? 'Dark' : 'Light'} Mode!`);
 }
 
 function applyThemeGlobally(theme) {
@@ -144,7 +243,7 @@ function changeCurrency(code, symbol) {
   updateCurrencyButton(code);
   document.getElementById("currentCurrency").textContent = `${symbol} ${code}`;
 
-  showToast(`✅ Currency changed to ${symbol} ${code}!`);
+  showToast(`Currency changed to ${symbol} ${code}!`);
 }
 
 function updateCurrencyButton(code) {
@@ -189,7 +288,7 @@ function updateNotificationSetting(setting) {
   notifications[setting] = element.checked;
   localStorage.setItem("notificationSettings", JSON.stringify(notifications));
 
-  showToast(`✅ ${setting.replace(/([A-Z])/g, ' $1').trim()} updated!`);
+  showToast(`Notification setting updated!`);
 }
 
 // ================= DATA EXPORT =================
@@ -219,7 +318,7 @@ function exportData() {
 
   URL.revokeObjectURL(url);
 
-  showToast("✅ Data exported successfully!");
+  showToast("Data exported successfully!");
 }
 
 // ================= DATA IMPORT =================
@@ -245,13 +344,13 @@ function importData(event) {
       }
 
       document.getElementById("importFile").value = "";
-      showToast("✅ Data imported successfully! Refreshing page...");
+      showToast("Data imported successfully! Refreshing page...");
 
       setTimeout(() => {
         location.reload();
       }, 1500);
     } catch (error) {
-      showToast("❌ Invalid file format. Please import a valid JSON file.");
+      showToast("Invalid file format. Please import a valid JSON file.");
       document.getElementById("importFile").value = "";
     }
   };
@@ -280,7 +379,7 @@ function confirmReset() {
   if (currencySettings) localStorage.setItem("currencySettings", currencySettings);
 
   closeResetModal();
-  showToast("✅ All data has been reset!");
+  showToast("All data has been reset!");
 
   setTimeout(() => {
     location.reload();
@@ -335,7 +434,7 @@ function showToast(message) {
 
   setTimeout(() => {
     toast.classList.remove("show");
-  }, 3000);
+  }, 2500);
 }
 
 // ================= UTILITIES =================
@@ -348,12 +447,17 @@ function setCurrentMonth() {
 document.addEventListener("DOMContentLoaded", function() {
   initializeSettings();
 
-  // Apply saved theme
-  const savedTheme = localStorage.getItem("appTheme") || "dark";
-  if (savedTheme === "light") {
-    // Light mode needs special styling
-    document.body.classList.add("light-mode");
+  // Apply saved theme (default to light)
+  const savedTheme = localStorage.getItem("appTheme") || "light";
+  if (savedTheme === "dark") {
+    document.documentElement.classList.add("dark-mode");
+  } else {
+    document.documentElement.classList.add("light-mode");
   }
+
+  // Apply saved accent color
+  const savedAccentColor = localStorage.getItem("accentColor") || "blue";
+  applyAccentColor(savedAccentColor);
 });
 
 // ================= KEYBOARD SHORTCUTS =================
@@ -362,5 +466,26 @@ document.addEventListener("keydown", function(e) {
   if ((e.ctrlKey || e.metaKey) && e.key === 's') {
     e.preventDefault();
     saveName();
+  }
+});
+
+// ================= BUTTON EVENT LISTENERS =================
+document.addEventListener("DOMContentLoaded", function() {
+  // Save profile preferences button
+  const saveProfileBtn = document.getElementById("saveProfilePreferences");
+  if (saveProfileBtn) {
+    saveProfileBtn.addEventListener("click", saveProfilePreferences);
+  }
+
+  // Export button
+  const exportBtn = document.getElementById("exportBtn");
+  if (exportBtn) {
+    exportBtn.addEventListener("click", exportData);
+  }
+
+  // Reset button
+  const resetBtn = document.getElementById("resetBtn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", resetAllData);
   }
 });

@@ -1,215 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Budget Tracker | Expense Tracker</title>
-
-  <link rel="stylesheet" href="css/dashboard.css">
-  <link rel="stylesheet" href="css/budget.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budgets | Expense Tracker</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/budget.css">
 </head>
 <body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand-block">
+                <div class="brand-mark">ET</div>
+                <div>
+                    <h1>Expense Tracker</h1>
+                    <p>Plan every month with confidence</p>
+                </div>
+            </div>
 
-<div class="dashboard">
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="transactions.html" class="nav-link">Transactions</a>
+                <a href="budgets.html" class="nav-link active">Budgets</a>
+                <a href="reports.html" class="nav-link">Reports</a>
+                <a href="settings.html" class="nav-link">Settings</a>
+            </nav>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h2>₹ Tracker</h2>
-    <ul>
-      <li>🏠 Dashboard</li>
-      <li>📊 Transactions</li>
-      <li class="active">💰 Budgets</li>
-      <li>📈 Reports</li>
-      <li>⚙️ Settings</li>
-    </ul>
-  </aside>
+            <div class="sidebar-card">
+                <h3>Budget tip</h3>
+                <p>Keep needs under control first, then leave room for wants and savings.</p>
+            </div>
+        </aside>
 
-  <!-- MAIN CONTENT -->
-  <main class="main-content">
+        <main class="main-content budget-page">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Monthly planning</p>
+                    <h2>Budgets overview</h2>
+                </div>
+                <div class="topbar-actions">
+                    <span class="status-chip" id="budgetHealthChip">On track</span>
+                    <button type="button" class="ghost-button" id="resetBudgetInsights">Refresh insights</button>
+                </div>
+            </header>
 
-    <!-- TOPBAR -->
-    <header class="topbar">
-      <h1>💰 Budget Tracker</h1>
-      <button class="add-btn" onclick="openBudgetModal()">➕ Set Monthly Budget</button>
-    </header>
+            <section class="hero-panel">
+                <div class="hero-copy">
+                    <h3>Stay ahead of your spending</h3>
+                    <p>Set category budgets, monitor progress, and spot overages before the month ends.</p>
+                </div>
+                <div class="hero-metrics">
+                    <article class="metric-card">
+                        <span>Total budget</span>
+                        <strong id="totalBudgetAmount">₦0.00</strong>
+                    </article>
+                    <article class="metric-card">
+                        <span>Spent this month</span>
+                        <strong id="totalSpentAmount">₦0.00</strong>
+                    </article>
+                    <article class="metric-card">
+                        <span>Remaining</span>
+                        <strong id="remainingBudgetAmount">₦0.00</strong>
+                    </article>
+                </div>
+            </section>
 
-    <!-- OVERALL BUDGET CARD -->
-    <section class="budget-overview">
-      <div class="budget-card main">
-        <div class="budget-header">
-          <h2>💳 Overall Monthly Budget</h2>
-          <span class="month-label" id="currentMonth"></span>
-        </div>
+            <section class="budget-grid">
+                <div class="panel glass-card">
+                    <div class="panel-header">
+                        <div>
+                            <p class="eyebrow">Create or update</p>
+                            <h3>Budget planner</h3>
+                        </div>
+                    </div>
 
-        <div class="budget-stats">
-          <div class="stat-item">
-            <label>Budget Limit</label>
-            <p id="budgetAmount" class="amount">₹0</p>
-          </div>
-          <div class="stat-item">
-            <label>Total Spent</label>
-            <p id="totalSpent" class="amount warning">₹0</p>
-          </div>
-          <div class="stat-item">
-            <label>Remaining</label>
-            <p id="remaining" class="amount success">₹0</p>
-          </div>
-        </div>
+                    <form id="budgetForm" class="budget-form">
+                        <div class="field-group">
+                            <label for="budgetCategory">Category</label>
+                            <select id="budgetCategory" required>
+                                <option value="">Select category</option>
+                                <option value="Food">Food</option>
+                                <option value="Transport">Transport</option>
+                                <option value="Housing">Housing</option>
+                                <option value="Utilities">Utilities</option>
+                                <option value="Entertainment">Entertainment</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Education">Education</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="Savings">Savings</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
 
-        <!-- PROGRESS BAR -->
-        <div class="progress-section">
-          <div class="progress-header">
-            <label>Budget Usage</label>
-            <span id="percentageLabel" class="percentage">0%</span>
-          </div>
-          <div class="progress-bar">
-            <div id="progressFill" class="progress-fill"></div>
-          </div>
-          <p id="warningMessage" class="warning-message"></p>
-        </div>
+                        <div class="field-group">
+                            <label for="budgetAmount">Monthly limit</label>
+                            <input type="number" id="budgetAmount" min="0" step="0.01" placeholder="Enter amount" required>
+                        </div>
 
-        <!-- EDIT BUDGET BUTTON -->
-        <button class="edit-budget-btn" onclick="openBudgetModal()">✏️ Edit Budget</button>
-      </div>
-    </section>
+                        <div class="field-group">
+                            <label for="budgetMonth">Month</label>
+                            <input type="month" id="budgetMonth" required>
+                        </div>
 
-    <!-- CATEGORY-WISE BUDGET SECTION -->
-    <section class="budget-categories">
-      <h2>📊 Budget by Category</h2>
-      <div class="category-grid" id="categoryGrid">
-        <!-- Category cards will be dynamically generated -->
-      </div>
-    </section>
+                        <button type="submit" class="primary-button full-width">Save budget</button>
+                    </form>
 
-    <!-- SPENDING SUMMARY -->
-    <section class="spending-summary">
-      <h2>📈 Spending Summary</h2>
-      <div class="summary-cards">
-        <div class="summary-card">
-          <h3>Food</h3>
-          <p id="foodSpent">₹0</p>
-          <div class="small-progress">
-            <div id="foodProgress" class="progress-fill"></div>
-          </div>
-          <span id="foodPercent">0%</span>
-        </div>
-        <div class="summary-card">
-          <h3>Transport</h3>
-          <p id="transportSpent">₹0</p>
-          <div class="small-progress">
-            <div id="transportProgress" class="progress-fill"></div>
-          </div>
-          <span id="transportPercent">0%</span>
-        </div>
-        <div class="summary-card">
-          <h3>Rent</h3>
-          <p id="rentSpent">₹0</p>
-          <div class="small-progress">
-            <div id="rentProgress" class="progress-fill"></div>
-          </div>
-          <span id="rentPercent">0%</span>
-        </div>
-        <div class="summary-card">
-          <h3>Shopping</h3>
-          <p id="shoppingSpent">₹0</p>
-          <div class="small-progress">
-            <div id="shoppingProgress" class="progress-fill"></div>
-          </div>
-          <span id="shoppingPercent">0%</span>
-        </div>
-        <div class="summary-card">
-          <h3>Bills</h3>
-          <p id="billsSpent">₹0</p>
-          <div class="small-progress">
-            <div id="billsProgress" class="progress-fill"></div>
-          </div>
-          <span id="billsPercent">0%</span>
-        </div>
-      </div>
-    </section>
+                    <div class="inline-message" id="budgetFormMessage"></div>
+                </div>
 
-    <!-- MONTHLY BUDGET HISTORY -->
-    <section class="budget-history">
-      <h2>📅 Budget History</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Month</th>
-            <th>Budget</th>
-            <th>Spent</th>
-            <th>Remaining</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="budgetHistoryList">
-          <tr>
-            <td colspan="5">No budget history</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+                <div class="panel glass-card">
+                    <div class="panel-header">
+                        <div>
+                            <p class="eyebrow">Performance</p>
+                            <h3>Budget insights</h3>
+                        </div>
+                    </div>
 
-  </main>
-</div>
+                    <div class="insight-stack">
+                        <article class="insight-item">
+                            <span>Categories on track</span>
+                            <strong id="categoriesOnTrack">0</strong>
+                        </article>
+                        <article class="insight-item warning">
+                            <span>Close to limit</span>
+                            <strong id="categoriesNearLimit">0</strong>
+                        </article>
+                        <article class="insight-item danger">
+                            <span>Exceeded</span>
+                            <strong id="categoriesExceeded">0</strong>
+                        </article>
+                    </div>
 
-<!-- ================= BUDGET MODAL ================= -->
+                    <canvas id="budgetChart" height="220"></canvas>
+                </div>
+            </section>
 
-<div id="budgetModal" class="modal">
-  <div class="modal-content">
+            <section class="panel glass-card">
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">Current month</p>
+                        <h3>Category budgets</h3>
+                    </div>
+                </div>
 
-    <h2>💳 Set Monthly Budget</h2>
+                <div id="budgetList" class="budget-list"></div>
+            </section>
+        </main>
+    </div>
 
-    <form id="budgetForm">
-
-      <div class="form-group">
-        <label for="monthInput">Month & Year</label>
-        <input type="month" id="monthInput" required>
-      </div>
-
-      <div class="form-group">
-        <label for="budgetInput">Monthly Budget Amount (₹)</label>
-        <input type="number" id="budgetInput" placeholder="Enter budget amount" min="0" step="100" required>
-      </div>
-
-      <div class="category-budget-section">
-        <label>Optional: Set Category Budgets</label>
-        
-        <div class="category-input">
-          <label for="foodBudget">Food (₹)</label>
-          <input type="number" id="foodBudget" placeholder="0" min="0" step="100">
-        </div>
-
-        <div class="category-input">
-          <label for="transportBudget">Transport (₹)</label>
-          <input type="number" id="transportBudget" placeholder="0" min="0" step="100">
-        </div>
-
-        <div class="category-input">
-          <label for="rentBudget">Rent (₹)</label>
-          <input type="number" id="rentBudget" placeholder="0" min="0" step="100">
-        </div>
-
-        <div class="category-input">
-          <label for="shoppingBudget">Shopping (₹)</label>
-          <input type="number" id="shoppingBudget" placeholder="0" min="0" step="100">
-        </div>
-
-        <div class="category-input">
-          <label for="billsBudget">Bills (₹)</label>
-          <input type="number" id="billsBudget" placeholder="0" min="0" step="100">
-        </div>
-      </div>
-
-      <div class="modal-buttons">
-        <button type="submit">Save Budget</button>
-        <button type="button" onclick="closeBudgetModal()">Cancel</button>
-      </div>
-
-    </form>
-
-  </div>
-</div>
-
-<script src="js/budget.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/budget.js"></script>
 </body>
 </html>
