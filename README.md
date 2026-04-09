@@ -76,16 +76,16 @@ No backend setup is required since data is stored in **Local Storage**.
 
 ## 📸 Screenshots
 - **Login Page** – User authentication
-- <img width="1919" height="1079" alt="Screenshot 2026-03-21 165654" src="https://github.com/user-attachments/assets/0f1b7752-8150-4832-b151-33613125aaa3" />
+ <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/8f1d7a7c-eecd-43dd-8f0d-c2ff2173b918" />
 
 - **Dashboard** – Overview of income, expenses, and balance
-- <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/409148c7-4915-4201-9bb3-67b2359f49fd" />
+ <img width="1906" height="1079" alt="image" src="https://github.com/user-attachments/assets/9ea6e3c0-385a-408f-ae0f-990170ee2ae2" />
 
 - **Transactions Page** – Add, view, and delete transactions
-- <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/9c5c7158-a4cf-4e48-9e89-764e9767a9d6" />
+ <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/7a760e43-bea9-41c4-b342-2de59ee15ff6" />
 
 - **Reports Page** – Visual representation of financial activities
-- <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/1104631f-804a-4871-abca-919c01ced997" />
+ <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/091dc595-94fd-4bc0-990f-2ad7d302f234" />
 
 
 ---
