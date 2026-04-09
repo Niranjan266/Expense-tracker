@@ -1,4 +1,3 @@
-**Here’s a complete, polished `README.md` for the Expense Tracker repository. It explains the project purpose, features, technologies, and usage clearly, making it suitable for collaborators or anyone exploring the repo.**
 
 ---
 
